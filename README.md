@@ -221,6 +221,24 @@ ORDER BY hire_date;
 
 ---
 
+### 🟢 12
+
+```txt
+DB: Store/products
+Task: Add column 'updated_special' and show NULL when the product is not on special (0)
+```
+
+<details><summary><b>Answer</b></summary>
+
+```sql
+SELECT prod_id, title, price, NULLIF(special, 0) as "updated_special"
+FROM products
+```
+
+</details>
+
+---
+
 # Text Functions
 
 ```sql
@@ -634,6 +652,441 @@ SELECT CONCAT('(', LEFT(phone_raw, 3), ') ', SUBSTRING(phone_raw FROM 4 FOR 3), 
 </details>
 
 ---
+
+# Math
+
+```sql
+-- Create a table for practicing math functions
+CREATE TABLE math_functions_practice (
+    id SERIAL PRIMARY KEY,
+    product_name VARCHAR(100),
+    price DECIMAL(10,2),
+    quantity INTEGER,
+    discount_percent DECIMAL(5,2),
+    weight_kg DECIMAL(8,3),
+    temperature_celsius DECIMAL(5,2),
+    sales_amount DECIMAL(10,2),
+    measurement_value DECIMAL(8,4),
+    employee_id INTEGER,
+    department VARCHAR(50)
+);
+
+-- Insert sample data
+INSERT INTO math_functions_practice
+(product_name, price, quantity, discount_percent, weight_kg, temperature_celsius, sales_amount, measurement_value, employee_id, department) VALUES
+('Laptop', 999.99, 5, 10.00, 2.500, 25.50, 1500.75, 15.6789, 101, 'Electronics'),
+('Mouse', 25.50, 20, 5.00, 0.250, 22.30, 800.25, 8.9123, 102, 'Electronics'),
+('Keyboard', 75.00, 15, 15.00, 1.200, 23.10, 1200.50, 12.3456, 101, 'Electronics'),
+('Monitor', 299.99, 8, 20.00, 5.800, 26.70, 950.80, 9.8765, 103, 'Electronics'),
+('Desk', 450.00, 3, 25.00, 25.000, 21.50, 675.30, 6.5432, 104, 'Furniture'),
+('Chair', 199.99, 10, 10.00, 12.500, 22.80, 450.90, 4.3210, 104, 'Furniture'),
+('Notebook', 5.99, 50, 0.00, 0.500, 24.20, 300.45, 3.2109, 105, 'Office Supplies'),
+('Pen', 2.49, 100, 2.50, 0.050, 23.90, 125.60, 1.2345, 105, 'Office Supplies'),
+('Tablet', 399.99, 12, 12.50, 0.800, 27.30, 1800.20, 18.7654, 101, 'Electronics'),
+('Headphones', 89.99, 25, 8.00, 0.450, 25.10, 650.75, 6.7890, 102, 'Electronics');
+```
+
+### 🟢 01
+
+```txt
+Task: Count total number of products
+Expected: 10
+```
+
+<details><summary><b>Answer</b></summary>
+
+```sql
+SELECT COUNT(*) FROM math_functions_practice;
+```
+
+</details>
+
+---
+
+### 🟢 02
+
+```txt
+Task: Calculate total value of all inventory (sum of price × quantity)
+Expected: ~ 19982.90
+```
+
+<details><summary><b>Answer</b></summary>
+
+```sql
+SELECT SUM(price * quantity) FROM math_functions_practice;
+```
+
+</details>
+
+---
+
+### 🟢 03
+
+```txt
+Task: Find the cheapest product price
+Expected: 2.49
+```
+
+<details><summary><b>Answer</b></summary>
+
+```sql
+SELECT MIN(price) FROM math_functions_practice;
+```
+
+</details>
+
+---
+
+### 🟢 04
+
+```txt
+Task: Find the most expensive product price
+Expected: 999.99
+```
+
+<details><summary><b>Answer</b></summary>
+
+```sql
+SELECT MAX(price) FROM math_functions_practice;
+```
+
+</details>
+
+---
+
+### 🟢 05
+
+```txt
+Task: Calculate average product price
+Expected: ~ 254.893
+```
+
+<details><summary><b>Answer</b></summary>
+
+```sql
+SELECT AVG(price) FROM math_functions_practice;
+```
+
+</details>
+
+---
+
+### 🟢 06
+
+```txt
+Task: Calculate absolute value of temperature differences from 25°C
+Expected: 0.50, 2.70, 1.90, 1.70, 3.50, etc.
+```
+
+<details><summary><b>Answer</b></summary>
+
+```sql
+SELECT ABS(temperature_celsius - 25) FROM math_functions_practice;
+```
+
+</details>
+
+---
+
+### 🟢 07
+
+```txt
+Task: Round all prices to nearest whole number
+Expected: 1000, 26, 75, 300, 450, etc.
+```
+
+<details><summary><b>Answer</b></summary>
+
+```sql
+SELECT ROUND(price) FROM math_functions_practice;
+```
+
+</details>
+
+---
+
+### 🟢 08
+
+```txt
+Task: Round measurement values to 2 decimal places
+Expected: 15.68, 8.91, 12.35, 9.88, 6.54, etc.
+```
+
+<details><summary><b>Answer</b></summary>
+
+```sql
+SELECT ROUND(measurement_value, 2) FROM math_functions_practice;
+```
+
+</details>
+
+---
+
+### 🟢 09
+
+```txt
+Task: Get ceiling value of all prices (round up)
+Expected: 1000, 26, 75, 300, 450, etc.
+```
+
+<details><summary><b>Answer</b></summary>
+
+```sql
+SELECT CEIL(price) FROM math_functions_practice;
+```
+
+</details>
+
+---
+
+### 🟢 10
+
+```txt
+Task: Get floor value of all prices (round down)
+Expected: 999, 25, 75, 299, 450, etc.
+```
+
+<details><summary><b>Answer</b></summary>
+
+```sql
+SELECT FLOOR(price) FROM math_functions_practice;
+```
+
+</details>
+
+---
+
+### 🟢 11
+
+```txt
+Task: Truncate prices to remove decimal places (no rounding)
+Expected: 999, 25, 75, 299, 450, etc.
+```
+
+<details><summary><b>Answer</b></summary>
+
+```sql
+SELECT TRUNC(price) FROM math_functions_practice;
+
+```
+
+</details>
+
+---
+
+### 🟢 12
+
+```txt
+Task: Truncate measurement values to 1 decimal place
+Expected: 15.6, 8.9, 12.3, 9.8, 6.5, etc.
+```
+
+<details><summary><b>Answer</b></summary>
+
+```sql
+SELECT TRUNC(measurement_value, 1) FROM math_functions_practice;
+```
+
+</details>
+
+---
+
+### 🟢 13
+
+```txt
+Task: Calculate square root of weight_kg
+Expected: ~1.581, ~0.500, ~1.095, ~2.408, ~5.000, etc.
+```
+
+<details><summary><b>Answer</b></summary>
+
+```sql
+SELECT SQRT(weight_kg) FROM math_functions_practice;
+```
+
+</details>
+
+---
+
+### 🟢 14
+
+```txt
+Task: Calculate price raised to power of 2 (price squared)
+Expected: ~999980, 650, 5625, 89994, 202500, etc.
+```
+
+<details><summary><b>Answer</b></summary>
+
+```sql
+SELECT POWER(price, 2) FROM math_functions_practice;
+```
+
+</details>
+
+---
+
+### 🟢 15
+
+```txt
+Task: Calculate modulus (remainder) of quantity divided by 3
+Expected: 2, 2, 0, 2, 0, 1, 2, 1, 0, 1
+```
+
+<details><summary><b>Answer</b></summary>
+
+```sql
+SELECT MOD(quantity, 3) FROM math_functions_practice;
+```
+
+</details>
+
+---
+
+### 🟢 16
+
+```txt
+Task: Generate a random number between 0 and 1 for each product
+Expected: Various random numbers between 0-1
+```
+
+<details><summary><b>Answer</b></summary>
+
+```sql
+SELECT RANDOM() FROM math_functions_practice;
+```
+
+</details>
+
+---
+
+### 🟢 17
+
+```txt
+Task: Generate random numbers between 1 and 100 for each product
+Expected: Various random integers between 1-100
+```
+
+<details><summary><b>Answer</b></summary>
+
+```sql
+SELECT FLOOR(RANDOM() * 100 + 1) FROM math_functions_practice;
+```
+
+</details>
+
+---
+
+# Data
+
+### 🟢 01
+
+```txt
+DB: Employees/employees
+Task: Get me all the employees above 60, use the appropriate date functions
+```
+
+<details><summary><b>Answer</b></summary>
+
+```sql
+SELECT AGE(birth_date), * FROM employees
+WHERE (
+   EXTRACT (YEAR FROM AGE(birth_date))
+) > 60 ;
+
+SELECT count(birth_date) FROM employees
+WHERE birth_date < now() - interval '61 years' -- 61 years before the current date
+
+```
+
+</details>
+
+---
+
+### 🟢 02
+
+```txt
+DB: Employees/employees
+Task: How many employees where hired in February?
+```
+
+<details><summary><b>Answer</b></summary>
+
+```sql
+SELECT count(emp_no) FROM employees
+where EXTRACT (MONTH FROM hire_date) = 2;
+```
+
+</details>
+
+---
+
+### 🟢 03
+
+```txt
+DB: Employees/employees
+Task: How many employees were born in november?
+```
+
+<details><summary><b>Answer</b></summary>
+
+```sql
+SELECT COUNT(emp_no) FROM employees
+WHERE EXTRACT (MONTH FROM birth_date) = 11;
+```
+
+</details>
+
+---
+
+### 🟢 04
+
+```txt
+DB: Employees/employees
+Task: Who is the oldest employee?
+```
+
+<details><summary><b>Answer</b></summary>
+
+```sql
+SELECT MAX(AGE(birth_date)) FROM employees;
+```
+
+</details>
+
+---
+
+### 🟢 05
+
+```txt
+DB: Store/orders
+Task: How many orders were made in January 2004?
+```
+
+<details><summary><b>Answer</b></summary>
+
+```sql
+SELECT COUNT(orderid)
+FROM orders
+WHERE DATE_TRUNC('month', orderdate) = date '2004-01-01';
+
+SELECT COUNT(orderid)
+FROM orders
+WHERE orderdate >= '2004-01-01'
+  AND orderdate < '2004-02-01';
+
+SELECT count(*) FROM orders
+WHERE (
+EXTRACT (YEAR FROM orderdate)
+) = 2004 and (
+EXTRACT (month FROM orderdate)
+) = 1
+```
+
+</details>
+
+---
+
+Expected
 
 <!--
 
