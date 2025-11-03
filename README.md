@@ -14,7 +14,7 @@
 <a href="#like">Like</a> <br>
 <a href="#joins">Joins</a> <br>
 <a href="#group">Group</a> <br>
-<a href="#union">Union</a> <br>
+<a href="#union">Union, Grouping Sets</a> <br>
 
 </div>
 
@@ -2092,7 +2092,7 @@ ORDER BY e.emp_no;
 
 ---
 
-<h2 align="center" name="union">Union</h2>
+<h2 align="center" name="union">Union, Grouping Sets</h2>
 
 ### 🟡 01
 
@@ -2146,6 +2146,46 @@ ORDER BY
         ELSE 0
     END,
     country_data.total_population DESC;
+```
+
+</details>
+
+---
+
+### 🟡 02
+
+```txt
+DB: World / city
+Task: Write a query to show the top 5 most populated countries
+(sorted in descendant order) and include a grand total at the top
+try with grouping()
+Expected:
+Total	1429559884
+CHN	175953614
+IND	123298526
+BRA	85876862
+USA	78625774
+JPN	77965107
+
+```
+
+<details><summary><b>Answer</b></summary>
+
+```sql
+SELECT
+    CASE
+        --WHEN countrycode IS NULL THEN 'Total'
+        WHEN GROUPING(countrycode) = 1 THEN 'Total'
+        ELSE countrycode
+    END AS countrycode,
+    SUM(population) AS total_population
+FROM city
+GROUP BY GROUPING SETS (
+    (countrycode),  -- Individual country totals
+    ()              -- Grand total
+)
+ORDER BY total_population DESC;
+LIMIT 6; -- 5 + 1 grand total
 ```
 
 </details>
