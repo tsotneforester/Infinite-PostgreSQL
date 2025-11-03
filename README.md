@@ -128,46 +128,6 @@ WHERE customerid IN (7888, 1082, 12808, 9623)
 
 ---
 
-### 🟢 07
-
-```txt
-DB: Employees/Employees
-Task: How many people's name start with A and end with R?
-Expected: 1846
-```
-
-<details><summary><b>Answer</b></summary>
-
-```sql
-SELECT count(emp_no)
-FROM employees
-WHERE first_name ILIKE 'A%R';
-```
-
-</details>
-
----
-
-### 🟢 08
-
-```txt
-DB: Employees/Employees
-Task: How many people's name has 5 characters endin with 'gi'?
-Expected: 2 - Luigi, Sergi
-```
-
-<details><summary><b>Answer</b></summary>
-
-```sql
-SELECT distinct first_name
-FROM employees
-where first_name ilike '___gi';
-```
-
-</details>
-
----
-
 ### 🟢 09
 
 ```txt
@@ -179,23 +139,6 @@ Task: Set default life expectancy to 10 where no info is provided, sort by acsan
 
 ```sql
 SELECT name, coalesce(lifeexpectancy, 10) as year FROM country order by year;
-```
-
-</details>
-
----
-
-### 🟢 10
-
-```txt
-DB: Employees/Employees
-Task: Sort employees by first name ascending and last name descending
-```
-
-<details><summary><b>Answer</b></summary>
-
-```sql
-SELECT * FROM employees ORDER BY first_name ASC, last_name DESC;
 ```
 
 </details>
@@ -238,6 +181,8 @@ FROM products
 </details>
 
 ---
+
+Order, Limit,
 
 # Text Functions
 
@@ -1086,7 +1031,543 @@ EXTRACT (month FROM orderdate)
 
 ---
 
-Expected
+# Order, Limit, Offset
+
+```sql
+CREATE TABLE for_order (
+    id SERIAL PRIMARY KEY,
+    customer_name VARCHAR(100) NOT NULL,
+    product_name VARCHAR(100) NOT NULL,
+    category VARCHAR(50) NOT NULL,
+    sale_amount DECIMAL(10,2) NOT NULL,
+    sale_date DATE NOT NULL,
+    region VARCHAR(50) NOT NULL,
+    quantity INTEGER NOT NULL,
+    rating INTEGER CHECK (rating >= 1 AND rating <= 5)
+);
+
+-- Insert sample data to work with
+INSERT INTO for_order (customer_name, product_name, category, sale_amount, sale_date, region, quantity, rating) VALUES
+('John Smith', 'Laptop', 'Electronics', 1200.00, '2024-01-15', 'North', 1, 5),
+('Jane Doe', 'Smartphone', 'Electronics', 800.50, '2024-01-20', 'South', 2, 4),
+('Bob Johnson', 'Desk Chair', 'Furniture', 250.75, '2024-02-05', 'East', 1, 3),
+('Alice Brown', 'Coffee Maker', 'Appliances', 89.99, '2024-02-10', 'West', 1, 5),
+('Charlie Wilson', 'Headphones', 'Electronics', 150.25, '2024-02-15', 'North', 3, 4),
+('Diana Lee', 'Bookshelf', 'Furniture', 180.00, '2024-03-01', 'South', 1, 4),
+('Edward Davis', 'Microwave', 'Appliances', 120.00, '2024-03-05', 'East', 1, 3),
+('Fiona Garcia', 'Tablet', 'Electronics', 450.00, '2024-03-10', 'West', 2, 5),
+('George Martinez', 'Office Desk', 'Furniture', 350.00, '2024-03-15', 'North', 1, 4),
+('Helen Taylor', 'Blender', 'Appliances', 75.50, '2024-03-20', 'South', 1, 2),
+('John Smith', 'Monitor', 'Electronics', 300.00, '2024-04-01', 'East', 1, 5),
+('Jane Doe', 'Gaming Chair', 'Furniture', 220.00, '2024-04-05', 'West', 1, 4),
+('Bob Johnson', 'Toaster', 'Appliances', 45.99, '2024-04-10', 'North', 1, 3),
+('Alice Brown', 'Smart Watch', 'Electronics', 199.99, '2024-04-15', 'South', 2, 4),
+('Charlie Wilson', 'Sofa', 'Furniture', 850.00, '2024-04-20', 'East', 1, 5);
+```
+
+### 🟢 01
+
+```txt
+Task: Retrieve all sales records sorted by sale amount from lowest to highest.
+```
+
+<details><summary><b>Answer</b></summary>
+
+```sql
+SELECT * FROM sales_data
+ORDER BY sale_amount;
+```
+
+</details>
+
+---
+
+### 🟢 02
+
+```txt
+Task: Sort records first by category alphabetically, then by sale amount within each category from highest to lowest.
+```
+
+<details><summary><b>Answer</b></summary>
+
+```sql
+SELECT * FROM sales_data
+ORDER BY category ASC, sale_amount DESC;
+```
+
+</details>
+
+---
+
+### 🟢 03
+
+```txt
+Task: Sort records by total revenue (sale_amount × quantity) from highest to lowest.
+```
+
+<details><summary><b>Answer</b></summary>
+
+```sql
+SELECT * FROM sales_data
+ORDER BY sale_amount * quantity DESC;
+```
+
+</details>
+
+---
+
+### 🟢 04
+
+```txt
+Task: Find the top 5 highest single sale amounts.
+```
+
+<details><summary><b>Answer</b></summary>
+
+```sql
+SELECT * FROM sales_data
+ORDER BY sale_amount DESC
+LIMIT 5;
+```
+
+</details>
+
+---
+
+### 🟢 05
+
+```txt
+Task: Returns the 5 most expensive individual sales.
+```
+
+<details><summary><b>Answer</b></summary>
+
+```sql
+SELECT * FROM sales_data
+ORDER BY sale_date
+LIMIT 5 OFFSET 5;
+```
+
+</details>
+
+---
+
+### 🟢 06
+
+```txt
+Task:Get page 2 of results (rows 11-20) when sorted by customer name and then by most recent sales date.
+```
+
+<details><summary><b>Answer</b></summary>
+
+```sql
+SELECT * FROM sales_data
+ORDER BY customer_name, sale_date DESC
+LIMIT 10 OFFSET 10;
+```
+
+</details>
+
+---
+
+### 🟢 07
+
+```txt
+Task: Find the top 3 highest-selling electronics products.
+```
+
+<details><summary><b>Answer</b></summary>
+
+```sql
+SELECT * FROM sales_data
+WHERE category = 'Electronics'
+ORDER BY sale_amount DESC
+LIMIT 3;
+```
+
+</details>
+
+---
+
+### 🟢 08
+
+```txt
+Task: Skip the first 10 records and return all remaining records.
+```
+
+<details><summary><b>Answer</b></summary>
+
+```sql
+SELECT * FROM sales_data
+ORDER BY id
+OFFSET 10;
+```
+
+</details>
+
+---
+
+# LIKE, Wildcards
+
+```sql
+-- Create a table for text pattern challenges
+CREATE TABLE text_patterns (
+    id SERIAL PRIMARY KEY,
+    full_name VARCHAR(100),
+    email VARCHAR(100),
+    product_code VARCHAR(20),
+    description TEXT,
+    category VARCHAR(50),
+    phone_number VARCHAR(15),
+    created_date DATE
+);
+
+-- Insert sample data
+INSERT INTO text_patterns (full_name, email, product_code, description, category, phone_number, created_date) VALUES
+('John Smith', 'john.smith@example.com', 'PROD-001-ABC', 'High-quality wireless headphones', 'Electronics', '+1-555-0101', '2024-01-15'),
+('Sarah Johnson', 'sarah.j@test.org', 'PROD-002-XYZ', 'Organic coffee beans - medium roast', 'Food & Beverage', '+1-555-0102', '2024-01-20'),
+('Mike O''Connor', 'mike.oconnor@company.com', 'SERV-003-LMN', 'Professional consulting services', 'Services', '+1-555-0103', '2024-02-05'),
+('Lisa Chen', 'lisa_chen@demo.net', 'PROD-004-DEF', 'Waterproof hiking backpack - large', 'Outdoor Gear', '+1-555-0104', '2024-02-10'),
+('Robert Williams Jr.', 'bob.williams@example.com', 'PROD-005-GHI', 'Smartphone case - protective', 'Electronics', '+1-555-0105', '2024-02-15'),
+('Maria Garcia', 'maria.garcia@test.org', 'SERV-006-JKL', 'Home cleaning service - premium', 'Services', '+44-20-7946', '2024-03-01'),
+('David Kim', 'david.kim@company.com', 'PROD-007-MNO', 'Fitness tracker - advanced model', 'Electronics', '+1-555-0107', '2024-03-05'),
+('Emma Wilson-Smith', 'emma.wilson@demo.net', 'PROD-008-PQR', 'Yoga mat - eco-friendly material', 'Fitness', '+1-555-0108', '2024-03-10'),
+('James Brown', 'james.brown@example.com', 'SERV-009-STU', 'Car maintenance and repair', 'Automotive', '+1-555-0109', '2024-03-15'),
+('Anna Taylor', 'anna_taylor@test.org', 'PROD-010-VWX', 'Cookbook - vegetarian recipes', 'Books', '+1-555-0110', '2024-03-20');
+```
+
+### 🟢 01
+
+```txt
+Task: Find all products that start with 'PROD-'
+```
+
+<details><summary><b>Answer</b></summary>
+
+```sql
+SELECT product_code, description
+FROM text_patterns
+WHERE product_code LIKE 'PROD-%';
+```
+
+</details>
+
+---
+
+### 🟢 02
+
+```txt
+Task: Find emails from example.com domain
+```
+
+<details><summary><b>Answer</b></summary>
+
+```sql
+SELECT full_name, email
+FROM text_patterns
+WHERE email LIKE '%@example.com';
+```
+
+</details>
+
+---
+
+### 🟢 03
+
+```txt
+Task: Find descriptions containing the word 'quality'
+```
+
+<details><summary><b>Answer</b></summary>
+
+```sql
+SELECT description
+FROM text_patterns
+WHERE description LIKE '%quality%';
+```
+
+</details>
+
+---
+
+### 🟢 04
+
+```txt
+Task: Find product codes where the second part is exactly 3 characters
+```
+
+<details><summary><b>Answer</b></summary>
+
+```sql
+SELECT product_code
+FROM text_patterns
+WHERE product_code LIKE '___-___-%';
+```
+
+</details>
+
+---
+
+### 🟢
+
+```txt
+Task: Find people with middle names (names containing a space followed by a single character and a period)
+```
+
+<details><summary><b>Answer</b></summary>
+
+```sql
+SELECT full_name
+FROM text_patterns
+WHERE full_name LIKE '% _.%';
+```
+
+</details>
+
+---
+
+### 🟢 06
+
+```txt
+Task: Find phone numbers with specific pattern
+```
+
+<details><summary><b>Answer</b></summary>
+
+```sql
+SELECT phone_number
+FROM text_patterns
+WHERE phone_number LIKE '+1-555-01__';
+```
+
+</details>
+
+---
+
+### 🟢 07
+
+```txt
+Task: Case-insensitive search for electronics (matches Electronics, electronics, ELECTRONICS, etc.)
+```
+
+<details><summary><b>Answer</b></summary>
+
+```sql
+SELECT category, description
+FROM text_patterns
+WHERE category ILIKE 'electronics';
+```
+
+</details>
+
+---
+
+### 🟢 08
+
+```txt
+Task: Find names containing 'smith' regardless of case
+```
+
+<details><summary><b>Answer</b></summary>
+
+```sql
+SELECT full_name
+FROM text_patterns
+WHERE full_name ILIKE '%smith%';
+```
+
+</details>
+
+---
+
+### 🟢 09
+
+```txt
+Task: Find emails from .org domains (case-insensitive)
+```
+
+<details><summary><b>Answer</b></summary>
+
+```sql
+SELECT email
+FROM text_patterns
+WHERE email ILIKE '%.org';
+```
+
+</details>
+
+---
+
+### 🟢
+
+```txt
+Task: Find products that are either electronics or services and contain specific patterns
+```
+
+<details><summary><b>Answer</b></summary>
+
+```sql
+SELECT product_code, description, category
+FROM text_patterns
+WHERE (category ILIKE 'electronics' OR category ILIKE 'services')
+  AND description LIKE '%professional%' OR description LIKE '%premium%';
+```
+
+</details>
+
+---
+
+### 🟢
+
+```txt
+Task: Find names with hyphenated last names
+```
+
+<details><summary><b>Answer</b></summary>
+
+```sql
+SELECT full_name
+FROM text_patterns
+WHERE full_name LIKE '%-%';
+```
+
+</details>
+
+---
+
+### 🟢
+
+```txt
+Task: Find product codes with specific character in certain position
+```
+
+<details><summary><b>Answer</b></summary>
+
+```sql
+SELECT product_code
+FROM text_patterns
+WHERE product_code LIKE '______-M%';
+```
+
+</details>
+
+---
+
+### 🟢
+
+```txt
+Task: Find entries created in March 2024 with specific email patterns
+```
+
+<details><summary><b>Answer</b></summary>
+
+```sql
+SELECT full_name, email, created_date
+FROM text_patterns
+WHERE created_date BETWEEN '2024-03-01' AND '2024-03-31'
+  AND (email LIKE '%@test.%' OR email LIKE '%@demo.%');
+```
+
+</details>
+
+---
+
+### 🟢
+
+```txt
+Task: Find descriptions with words that start with specific letters
+```
+
+<details><summary><b>Answer</b></summary>
+
+```sql
+SELECT description
+FROM text_patterns
+WHERE description ILIKE '% w%' OR description ILIKE '% h%';
+```
+
+</details>
+
+---
+
+### 🟢
+
+```txt
+Task: Complex pattern: names with apostrophes or specific suffixes
+```
+
+<details><summary><b>Answer</b></summary>
+
+```sql
+SELECT full_name
+FROM text_patterns
+WHERE full_name LIKE '%''%' OR full_name LIKE '% Jr.%';
+```
+
+</details>
+
+---
+
+### 🟢
+
+```txt
+Task: Find all service-related products with codes starting with SERV
+```
+
+<details><summary><b>Answer</b></summary>
+
+```sql
+SELECT * FROM text_patterns
+WHERE product_code LIKE 'SERV-%'
+  AND category ILIKE '%service%';
+```
+
+</details>
+
+---
+
+### 🟢
+
+```txt
+Task: Find customers with specific email provider patterns
+```
+
+<details><summary><b>Answer</b></summary>
+
+```sql
+SELECT full_name, email,
+  CASE
+    WHEN email ILIKE '%@example.%' THEN 'Example Corp'
+    WHEN email ILIKE '%@test.%' THEN 'Test Org'
+    WHEN email ILIKE '%@company.%' THEN 'Company Inc'
+    ELSE 'Other'
+  END as email_provider
+FROM text_patterns;
+```
+
+</details>
+
+---
+
+### 🟢
+
+```txt
+Task: Find products with specific size indicators in description
+```
+
+<details><summary><b>Answer</b></summary>
+
+```sql
+SELECT description
+FROM text_patterns
+WHERE description ILIKE '%large%'
+   OR description ILIKE '%medium%'
+   OR description ILIKE '%advanced%';
+```
+
+</details>
+
+---
 
 <!--
 
