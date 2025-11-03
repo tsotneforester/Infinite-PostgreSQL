@@ -10,7 +10,7 @@
 <a href="#text">Text Functions</a> <br>
 <a href="#math">Math</a> <br>
 <a href="#date">Date</a> <br>
-<a href="#order">Link</a>Order, Limit, Offset<br>
+<a href="#order">Order, Limit, Offset</a><br>
 <a href="#like">Like</a> <br>
 
 </div>
