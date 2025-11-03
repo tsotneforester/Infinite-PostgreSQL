@@ -1,19 +1,36 @@
 <div align="center">
-  <img height="260" src="https://github.com/tsotneforester/infiniteJSTasks/assets/79293287/1cc7c4f6-0317-4e86-bead-11b50bc8cd97">
 
   <h1>Infinite-PostgreSQL</h1>
 
 </div>
 
+<div align="left">
+
+<a href="#Unsorted">Unsorted</a> <br>
+<a href="#text">Text Functions</a> <br>
+<a href="#line">Line</a> <br>
+<a href="#list">List</a> <br>
+<a href="#link">Link</a> <br>
+<a href="#image">Image</a> <br>
+<a href="#table">Table</a> <br>
+<a href="#checkbox">Checkbox</a> <br>
+<a href="#footnote">Footnote</a> <br>
+<a href="#quote">Quote</a> <br>
+<a href="#alert">Alert</a> <br>
+<a href="#resources">Resources</a> <br>
+
+</div>
+
 <p>
 
----
+# Unsorted
 
 ### 🟢 01
 
 ```txt
 DB: store/customers
-Task: Who between the ages of 30 and 50 has an income less than 50 000?
+Task: Who between the ages of 30 and 50 has
+an income less than 50 000?
 ```
 
 <details><summary><b>Answer</b></summary>
@@ -32,7 +49,8 @@ where age between 30 and 50 and income < 50000
 
 ```txt
 DB: store/customers
-Task: What is the average income between the ages of 20 and 50? (Including 20 and 50)
+Task: What is the average income between
+the ages of 20 and 50? (Including 20 and 50)
 Expected: 59361.926
 ```
 
@@ -51,7 +69,8 @@ FROM customers where age between 20 and 50;
 
 ```txt
 DB: store/customers
-Task: How many female customers do we have from the state of Oregon (OR)?
+Task: How many female customers do we have
+from the state of Oregon (OR)?
 Expected: 106
 ```
 
@@ -69,7 +88,10 @@ SELECT COUNT(firstName) FROM customers WHERE gender = 'F' and state = 'OR';
 
 ```txt
 DB: store/products
-Task: Create a case statement that's named "price class" where if a product is over 20 dollars you show 'expensive', if it's between 10 and 20 you show 'average' and of is lower than or equal to 10 you show 'cheap'
+Task: Create a case statement that's named "price class" where if a
+product is over 20 dollars you show 'expensive',
+if it's between 10 and 20 you show 'average' and
+of is lower than or equal to 10 you show 'cheap'
 ```
 
 <details><summary><b>Answer</b></summary>
@@ -92,7 +114,8 @@ FROM products
 
 ```txt
 DB: World/country
-Task: get a list of distinct life expectancy ages, make sure there are no nulls
+Task: get a list of distinct life expectancy ages,
+make sure there are no nulls
 ```
 
 <details><summary><b>Answer</b></summary>
@@ -112,7 +135,8 @@ ORDER BY lifeexpectancy;
 
 ```txt
 DB: Store/orders
-Task: How many orders were made by customer 7888, 1082, 12808, 9623
+Task: How many orders were made by customer
+7888, 1082, 12808, 9623
 Expected: 6
 ```
 
@@ -132,7 +156,8 @@ WHERE customerid IN (7888, 1082, 12808, 9623)
 
 ```txt
 DB: World/country
-Task: Set default life expectancy to 10 where no info is provided, sort by acsanding life expectancy
+Task: Set default life expectancy to 10 where no
+info is provided, sort by acsanding life expectancy
 ```
 
 <details><summary><b>Answer</b></summary>
@@ -182,9 +207,7 @@ FROM products
 
 ---
 
-Order, Limit,
-
-# Text Functions
+<h2 align="center" name="text">Text Functions</h2>
 
 ```sql
 -- Create a table for practicing text functions
@@ -516,7 +539,8 @@ SELECT REPLACE(description, 'EXAMPLE', 'SAMPLE') FROM text_functions_practice;
 ### 🟢 19
 
 ```txt
-Task: Translate all vowels in full_name to uppercase (a->A, e->E, etc.)
+Task: Translate all vowels in full_name
+to uppercase (a->A, e->E, etc.)
 Expected: 'JOHN SMITH', 'mAry jOnEs', 'DAvID WilsOn', etc.
 ```
 
@@ -719,7 +743,8 @@ SELECT AVG(price) FROM math_functions_practice;
 ### 🟢 06
 
 ```txt
-Task: Calculate absolute value of temperature differences from 25°C
+Task: Calculate absolute value of temperature
+differences from 25°C
 Expected: 0.50, 2.70, 1.90, 1.70, 3.50, etc.
 ```
 
@@ -890,7 +915,8 @@ SELECT MOD(quantity, 3) FROM math_functions_practice;
 ### 🟢 16
 
 ```txt
-Task: Generate a random number between 0 and 1 for each product
+Task: Generate a random number between 0 and 1
+for each product
 Expected: Various random numbers between 0-1
 ```
 
@@ -907,7 +933,8 @@ SELECT RANDOM() FROM math_functions_practice;
 ### 🟢 17
 
 ```txt
-Task: Generate random numbers between 1 and 100 for each product
+Task: Generate random numbers between 1 and 100
+for each product
 Expected: Various random integers between 1-100
 ```
 
@@ -927,7 +954,8 @@ SELECT FLOOR(RANDOM() * 100 + 1) FROM math_functions_practice;
 
 ```txt
 DB: Employees/employees
-Task: Get me all the employees above 60, use the appropriate date functions
+Task: Get me all the employees above 60,
+use the appropriate date functions
 ```
 
 <details><summary><b>Answer</b></summary>
@@ -1068,7 +1096,8 @@ INSERT INTO for_order (customer_name, product_name, category, sale_amount, sale_
 ### 🟢 01
 
 ```txt
-Task: Retrieve all sales records sorted by sale amount from lowest to highest.
+Task: Retrieve all sales records sorted
+by sale amount from lowest to highest.
 ```
 
 <details><summary><b>Answer</b></summary>
@@ -1085,7 +1114,8 @@ ORDER BY sale_amount;
 ### 🟢 02
 
 ```txt
-Task: Sort records first by category alphabetically, then by sale amount within each category from highest to lowest.
+Task: Sort records first by category alphabetically, then
+by sale amount within each category from highest to lowest.
 ```
 
 <details><summary><b>Answer</b></summary>
@@ -1102,7 +1132,8 @@ ORDER BY category ASC, sale_amount DESC;
 ### 🟢 03
 
 ```txt
-Task: Sort records by total revenue (sale_amount × quantity) from highest to lowest.
+Task: Sort records by total revenue
+(sale_amount × quantity) from highest to lowest.
 ```
 
 <details><summary><b>Answer</b></summary>
@@ -1155,7 +1186,8 @@ LIMIT 5 OFFSET 5;
 ### 🟢 06
 
 ```txt
-Task:Get page 2 of results (rows 11-20) when sorted by customer name and then by most recent sales date.
+Task:Get page 2 of results (rows 11-20) when
+sorted by customer name and then by most recent sales date.
 ```
 
 <details><summary><b>Answer</b></summary>
@@ -1173,7 +1205,8 @@ LIMIT 10 OFFSET 10;
 ### 🟢 07
 
 ```txt
-Task: Find the top 3 highest-selling electronics products.
+Task: Find the top 3 highest-selling
+electronics products.
 ```
 
 <details><summary><b>Answer</b></summary>
@@ -1192,7 +1225,8 @@ LIMIT 3;
 ### 🟢 08
 
 ```txt
-Task: Skip the first 10 records and return all remaining records.
+Task: Skip the first 10 records and return
+all remaining records.
 ```
 
 <details><summary><b>Answer</b></summary>
@@ -1293,7 +1327,8 @@ WHERE description LIKE '%quality%';
 ### 🟢 04
 
 ```txt
-Task: Find product codes where the second part is exactly 3 characters
+Task: Find product codes where the second
+part is exactly 3 characters
 ```
 
 <details><summary><b>Answer</b></summary>
@@ -1311,7 +1346,8 @@ WHERE product_code LIKE '___-___-%';
 ### 🟢
 
 ```txt
-Task: Find people with middle names (names containing a space followed by a single character and a period)
+Task: Find people with middle names (names containing a space
+followed by a single character and a period)
 ```
 
 <details><summary><b>Answer</b></summary>
@@ -1347,7 +1383,8 @@ WHERE phone_number LIKE '+1-555-01__';
 ### 🟢 07
 
 ```txt
-Task: Case-insensitive search for electronics (matches Electronics, electronics, ELECTRONICS, etc.)
+Task: Case-insensitive search for electronics
+(matches Electronics, electronics, ELECTRONICS, etc.)
 ```
 
 <details><summary><b>Answer</b></summary>
@@ -1401,7 +1438,8 @@ WHERE email ILIKE '%.org';
 ### 🟢
 
 ```txt
-Task: Find products that are either electronics or services and contain specific patterns
+Task: Find products that are either electronics
+ or services and contain specific patterns
 ```
 
 <details><summary><b>Answer</b></summary>
@@ -1438,7 +1476,8 @@ WHERE full_name LIKE '%-%';
 ### 🟢
 
 ```txt
-Task: Find product codes with specific character in certain position
+Task: Find product codes with specific
+character in certain position
 ```
 
 <details><summary><b>Answer</b></summary>
@@ -1456,7 +1495,8 @@ WHERE product_code LIKE '______-M%';
 ### 🟢
 
 ```txt
-Task: Find entries created in March 2024 with specific email patterns
+Task: Find entries created in March 2024
+with specific email patterns
 ```
 
 <details><summary><b>Answer</b></summary>
@@ -1475,7 +1515,8 @@ WHERE created_date BETWEEN '2024-03-01' AND '2024-03-31'
 ### 🟢
 
 ```txt
-Task: Find descriptions with words that start with specific letters
+Task: Find descriptions with words that
+start with specific letters
 ```
 
 <details><summary><b>Answer</b></summary>
@@ -1493,7 +1534,8 @@ WHERE description ILIKE '% w%' OR description ILIKE '% h%';
 ### 🟢
 
 ```txt
-Task: Complex pattern: names with apostrophes or specific suffixes
+Task: Complex pattern: names with
+apostrophes or specific suffixes
 ```
 
 <details><summary><b>Answer</b></summary>
@@ -1511,7 +1553,8 @@ WHERE full_name LIKE '%''%' OR full_name LIKE '% Jr.%';
 ### 🟢
 
 ```txt
-Task: Find all service-related products with codes starting with SERV
+Task: Find all service-related products with
+codes starting with SERV
 ```
 
 <details><summary><b>Answer</b></summary>
