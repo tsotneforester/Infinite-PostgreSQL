@@ -12,6 +12,7 @@
 <a href="#date">Date</a> <br>
 <a href="#order">Order, Limit, Offset</a><br>
 <a href="#like">Like</a> <br>
+<a href="#joins">Joins</a> <br>
 <a href="#group">Group</a> <br>
 
 </div>
@@ -1609,7 +1610,7 @@ WHERE description ILIKE '%large%'
 
 ---
 
-<h2 align="center" name="group">Group</h2>
+<h2 align="center" name="join">Joins</h2>
 
 ### 🟢 01
 
@@ -1864,12 +1865,188 @@ FROM employees e1
 
 ---
 
-<!--
+<h2 align="center" name="group">Group</h2>
 
-### 🟢🔴🟡
+### 🟢
 
 ```txt
+DB: Employees / Employees
+Task: How many people were hired on did we hire on any given hire date?
 
+```
+
+<details><summary><b>Answer</b></summary>
+
+```sql
+SELECT hire_date, COUNT(emp_no) as "amount"
+FROM employees
+GROUP BY hire_date
+ORDER BY "amount" DESC;
+```
+
+</details>
+
+---
+
+### 🟢
+
+```txt
+DB: Employees
+Task: Show me all the employees, hired after 1991 and count the amount of positions they've had
+Expected:
+
+10008	1
+10012	2
+10016	1
+10017	2
+10019	1
+10022	1
+10024	1
+10026	2
+```
+
+<details><summary><b>Answer</b></summary>
+
+```sql
+SELECT e.emp_no, count(t.title) as "amount of titles"
+FROM employees as e
+JOIN titles as t USING(emp_no)
+WHERE e.hire_date >= '1991-01-01'
+GROUP BY e.emp_no
+ORDER BY e.emp_no;
+```
+
+</details>
+
+---
+
+### 🟢
+
+```txt
+DB: World / city
+Task: Find the total population of cities in each district, top 10 in descending order.
+Expected:
+
+São Paulo	26316966
+Maharashtra	23659433
+England	19978543
+```
+
+<details><summary><b>Answer</b></summary>
+
+```sql
+SELECT district, SUM(population) as total_population
+FROM city
+GROUP BY district
+ORDER BY total_population DESC
+limit 10
+```
+
+</details>
+
+---
+
+### 🟢
+
+```txt
+DB: World
+Task: Count how many cities exist in each country
+Expected:
+China	363
+India	341
+United States	274
+Brazil	250
+Japan	248
+```
+
+<details><summary><b>Answer</b></summary>
+
+```sql
+select cn.name, count(ct.name)
+from city ct
+join country as cn on cn.code = ct.countrycode
+group by cn.name
+ORDER BY count(ct.name) DESC;
+```
+
+</details>
+
+---
+
+### 🟢
+
+```txt
+DB: Employees
+Task: Show me all the employees that have had more than 15 salary
+changes that work in the department development
+Expected:
+10001	17
+10018	16
+10066	17
+10070	17
+10150	16
+10191	17
+10198	17
+10258	18
+10271	17
+```
+
+<details><summary><b>Answer</b></summary>
+
+```sql
+select s.emp_no, count (dp.dept_name)
+from salaries s
+left join dept_emp de using(emp_no)
+left join departments dp using(dept_no)
+where dp.dept_name = 'Development'
+group by s.emp_no
+having count (dp.dept_name) > 15
+ORDER BY s.emp_no
+```
+
+</details>
+
+---
+
+### 🟢
+
+```txt
+DB: Employees
+Task: Show me all the employees that have worked for multiple departments
+Expected:
+10010	2
+10018	2
+10029	2
+10040	2
+10050	2
+10060	2
+10070	2
+10080	2
+```
+
+<details><summary><b>Answer</b></summary>
+
+```sql
+SELECT e.emp_no, count(de.dept_no) as "worked for # departments"
+FROM employees as e
+JOIN dept_emp AS de USING(emp_no)
+GROUP BY e.emp_no
+HAVING count(de.dept_no) > 1
+ORDER BY e.emp_no;
+```
+
+</details>
+
+---
+
+<!--
+
+### 🟢
+
+```txt
+DB:
+Task:
+Expected:
 ```
 
 <details><summary><b>Answer</b></summary>
