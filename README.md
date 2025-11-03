@@ -14,6 +14,7 @@
 <a href="#like">Like</a> <br>
 <a href="#joins">Joins</a> <br>
 <a href="#group">Group</a> <br>
+<a href="#union">Union</a> <br>
 
 </div>
 
@@ -2091,9 +2092,68 @@ ORDER BY e.emp_no;
 
 ---
 
+<h2 align="center" name="union">Union</h2>
+
+### 🟡
+
+```txt
+DB: World / city
+Task: Write a query to show the total population for top 5 most populated countries (sorted in descendant order) and include a grand total at the end
+Expected:
+CHN	175953614
+IND	123298526
+BRA	85876862
+USA	78625774
+JPN	77965107
+Total	1429559884
+
+```
+
+<details><summary><b>Answer</b></summary>
+
+```sql
+SELECT
+    country_data.country_code,
+    country_data.total_population
+FROM
+    (
+        -- 🌍 Top 5 Countries by Total City Population
+        SELECT
+            countrycode AS country_code,
+            SUM(population) AS total_population
+        FROM
+            city
+        GROUP BY
+            countrycode
+        ORDER BY
+            total_population DESC
+        LIMIT 5
+
+        UNION ALL
+
+        -- 🥇 Grand Total Population Across All Countries
+        SELECT
+            'World Total' AS country_code,
+            SUM(population) AS total_population
+        FROM
+            city
+    ) AS country_data
+-- Final ordering: World Total at the bottom, followed by top countries by population descending.
+ORDER BY
+    CASE
+        WHEN country_data.country_code = 'World Total' THEN 1
+        ELSE 0
+    END,
+    country_data.total_population DESC;
+```
+
+</details>
+
+---
+
 <!--
 
-### 🟢
+### 🟢🟡🔴
 
 ```txt
 DB:
