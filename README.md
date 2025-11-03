@@ -6,24 +6,18 @@
 
 <div align="left">
 
-<a href="#Unsorted">Unsorted</a> <br>
+<a href="#unsorted">Unsorted</a> <br>
 <a href="#text">Text Functions</a> <br>
-<a href="#line">Line</a> <br>
-<a href="#list">List</a> <br>
-<a href="#link">Link</a> <br>
-<a href="#image">Image</a> <br>
-<a href="#table">Table</a> <br>
-<a href="#checkbox">Checkbox</a> <br>
-<a href="#footnote">Footnote</a> <br>
-<a href="#quote">Quote</a> <br>
-<a href="#alert">Alert</a> <br>
-<a href="#resources">Resources</a> <br>
+<a href="#math">Math</a> <br>
+<a href="#date">Date</a> <br>
+<a href="#order">Link</a>Order, Limit, Offset<br>
+<a href="#like">Like</a> <br>
 
 </div>
 
 <p>
 
-# Unsorted
+<h2 align="center" name="unsorted">Unsorted</h2>
 
 ### 🟢 01
 
@@ -622,7 +616,7 @@ SELECT CONCAT('(', LEFT(phone_raw, 3), ') ', SUBSTRING(phone_raw FROM 4 FOR 3), 
 
 ---
 
-# Math
+<h2 align="center" name="math">Math</h2>
 
 ```sql
 -- Create a table for practicing math functions
@@ -948,7 +942,7 @@ SELECT FLOOR(RANDOM() * 100 + 1) FROM math_functions_practice;
 
 ---
 
-# Data
+<h2 align="center" name="date">Date</h2>
 
 ### 🟢 01
 
@@ -1059,7 +1053,9 @@ EXTRACT (month FROM orderdate)
 
 ---
 
-# Order, Limit, Offset
+<h2 align="center" name="order">Order, Limit, Offset</h2>
+
+#
 
 ```sql
 CREATE TABLE for_order (
@@ -1241,7 +1237,7 @@ OFFSET 10;
 
 ---
 
-# LIKE, Wildcards
+<h2 align="center" name="like">LIKE, Wildcards</h2>
 
 ```sql
 -- Create a table for text pattern challenges
