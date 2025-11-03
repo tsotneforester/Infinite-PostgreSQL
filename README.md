@@ -1615,6 +1615,7 @@ WHERE description ILIKE '%large%'
 ### 🟢 01
 
 ```txt
+DB: Employees
 Task: List all employee names and their
 corresponding department names.
 ```
@@ -1638,6 +1639,7 @@ FROM employees e
 ### 🟢 02
 
 ```txt
+DB: Employees
 Task: Find the employee number and first name
 of all employees who are currently listed as a manager.
 ```
@@ -1656,30 +1658,10 @@ FROM employees e
 
 ---
 
-### 🟢
-
-```txt
-Task: List all employee names and their current salary value.
-```
-
-<details><summary><b>Answer</b></summary>
-
-```sql
-SELECT
-    e.first_name,
-    e.last_name,
-    s.salary
-FROM employees e
-    INNER JOIN salaries s ON e.emp_no = s.emp_no;
-```
-
-</details>
-
----
-
 ### 🟢 03
 
 ```txt
+DB: Employees
 Task: List all departments and, if they have an
 assigned manager, the manager's employee number.
 Include departments even if they have no manager.
@@ -1702,6 +1684,7 @@ FROM departments d
 ### 🟢 04
 
 ```txt
+DB: Employees
 Task: List all employee names. If an employee has an entry in
 the titles table, include their title. Employees
 without a title entry should still be listed.
@@ -1725,6 +1708,7 @@ FROM employees e
 ### 🟢 05
 
 ```txt
+DB: Employees
 Task: List all employees and their salaries.
 Re-state I3 using a LEFT JOIN with employees as the left table.
 
@@ -1748,6 +1732,7 @@ FROM employees e
 ### 🟢 06
 
 ```txt
+DB: Employees
 Task: List all employees and their assigned department number.
 Include employees that have no department assignment
 (which should be rare based on your data structure, but tests the concept).
@@ -1772,6 +1757,7 @@ FROM dept_emp de
 ### 🟢 07
 
 ```txt
+DB: Employees
 Task: List all distinct salaries and the employee number associated
 with them. Include salaries even if they aren't tied
 to an employee (hypothetically). Use salaries as the right table.
@@ -1794,6 +1780,7 @@ FROM employees e
 ### 🟢 08
 
 ```txt
+DB: Employees
 Task: List all departments and all employee titles. Show the
 department name next to any title if the title
 exists for any employee in that department.
@@ -1819,6 +1806,7 @@ FROM departments d
 ### 🟢 09
 
 ```txt
+DB: Employees
 Task: Find all pairs of employees who share the same first
 name but have different employee numbers.
 ```
@@ -1843,6 +1831,7 @@ FROM employees e1
 ### 🟢 10
 
 ```txt
+DB: Employees
 Task: Find all pairs of employees who were hired on the
 same day but are different employees.
 
@@ -1859,6 +1848,69 @@ SELECT
 FROM employees e1
     INNER JOIN employees e2 ON e1.hire_date = e2.hire_date
     AND e1.emp_no != e2.emp_no;
+```
+
+</details>
+
+---
+
+### 🟢 11
+
+```txt
+DB: Employees
+Task: List all employee names and their current salary value.
+```
+
+<details><summary><b>Answer</b></summary>
+
+```sql
+SELECT
+    e.first_name,
+    e.last_name,
+    s.salary
+FROM employees e
+    INNER JOIN salaries s ON e.emp_no = s.emp_no;
+```
+
+</details>
+
+---
+
+### 🟢 12
+
+```txt
+DB: Store
+Task: Get all orders from customers who live in Ohio (OH), New York (NY)
+or Oregon (OR) state, ordered by orderid
+```
+
+<details><summary><b>Answer</b></summary>
+
+```sql
+SELECT c.firstname, c.lastname, o.orderid FROM orders AS o
+INNER JOIN customers AS c ON o.customerid = c.customerid
+WHERE c.state IN ('NY', 'OH', 'OR')
+ORDER BY o.orderid;
+```
+
+</details>
+
+---
+
+### 🟢
+
+```txt
+DB: Employees
+Task: Show me for each employee which department they work in. Try USING (331 603)
+```
+
+<details><summary><b>Answer</b></summary>
+
+```sql
+SELECT e.first_name, dp.dept_name
+FROM employees AS e
+INNER JOIN dept_emp AS de ON de.emp_no = e.emp_no
+INNER JOIN departments AS dp ON dp.dept_no = de.dept_no
 ```
 
 </details>
