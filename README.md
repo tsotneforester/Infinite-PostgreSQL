@@ -1342,7 +1342,7 @@ WHERE product_code LIKE '___-___-%';
 
 ---
 
-### 🟢
+### 🟢 05
 
 ```txt
 Task: Find people with middle names (names containing a space
@@ -1434,7 +1434,7 @@ WHERE email ILIKE '%.org';
 
 ---
 
-### 🟢
+### 🟢 10
 
 ```txt
 Task: Find products that are either electronics
@@ -1454,7 +1454,7 @@ WHERE (category ILIKE 'electronics' OR category ILIKE 'services')
 
 ---
 
-### 🟢
+### 🟢 11
 
 ```txt
 Task: Find names with hyphenated last names
@@ -1472,7 +1472,7 @@ WHERE full_name LIKE '%-%';
 
 ---
 
-### 🟢
+### 🟢 12
 
 ```txt
 Task: Find product codes with specific
@@ -1491,7 +1491,7 @@ WHERE product_code LIKE '______-M%';
 
 ---
 
-### 🟢
+### 🟢 13
 
 ```txt
 Task: Find entries created in March 2024
@@ -1511,7 +1511,7 @@ WHERE created_date BETWEEN '2024-03-01' AND '2024-03-31'
 
 ---
 
-### 🟢
+### 🟢 14
 
 ```txt
 Task: Find descriptions with words that
@@ -1530,7 +1530,7 @@ WHERE description ILIKE '% w%' OR description ILIKE '% h%';
 
 ---
 
-### 🟢
+### 🟢 15
 
 ```txt
 Task: Complex pattern: names with
@@ -1549,7 +1549,7 @@ WHERE full_name LIKE '%''%' OR full_name LIKE '% Jr.%';
 
 ---
 
-### 🟢
+### 🟢 16
 
 ```txt
 Task: Find all service-related products with
@@ -1568,7 +1568,7 @@ WHERE product_code LIKE 'SERV-%'
 
 ---
 
-### 🟢
+### 🟢 17
 
 ```txt
 Task: Find customers with specific email provider patterns
@@ -1591,7 +1591,7 @@ FROM text_patterns;
 
 ---
 
-### 🟢
+### 🟢 18
 
 ```txt
 Task: Find products with specific size indicators in description
@@ -1898,7 +1898,7 @@ ORDER BY o.orderid;
 
 ---
 
-### 🟢
+### 🟢 13
 
 ```txt
 DB: Employees
@@ -1920,7 +1920,7 @@ INNER JOIN departments AS dp ON dp.dept_no = de.dept_no
 
 <h2 align="center" name="group">Group</h2>
 
-### 🟢
+### 🟢 01
 
 ```txt
 DB: Employees / Employees
@@ -1941,7 +1941,7 @@ ORDER BY "amount" DESC;
 
 ---
 
-### 🟢
+### 🟢 02
 
 ```txt
 DB: Employees
@@ -1973,7 +1973,7 @@ ORDER BY e.emp_no;
 
 ---
 
-### 🟢
+### 🟢 03
 
 ```txt
 DB: World / city
@@ -1999,7 +1999,7 @@ limit 10
 
 ---
 
-### 🟢
+### 🟢 04
 
 ```txt
 DB: World
@@ -2026,7 +2026,7 @@ ORDER BY count(ct.name) DESC;
 
 ---
 
-### 🟢
+### 🟢 05
 
 ```txt
 DB: Employees
@@ -2061,7 +2061,7 @@ ORDER BY s.emp_no
 
 ---
 
-### 🟢
+### 🟢 06
 
 ```txt
 DB: Employees
@@ -2094,11 +2094,12 @@ ORDER BY e.emp_no;
 
 <h2 align="center" name="union">Union</h2>
 
-### 🟡
+### 🟡 01
 
 ```txt
 DB: World / city
-Task: Write a query to show the total population for top 5 most populated countries (sorted in descendant order) and include a grand total at the end
+Task: Write a query to show the total population for top 5 most populated
+countries (sorted in descendant order) and include a grand total at the end
 Expected:
 CHN	175953614
 IND	123298526
