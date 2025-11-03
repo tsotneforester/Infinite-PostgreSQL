@@ -12,6 +12,7 @@
 <a href="#date">Date</a> <br>
 <a href="#order">Order, Limit, Offset</a><br>
 <a href="#like">Like</a> <br>
+<a href="#group">Group</a> <br>
 
 </div>
 
@@ -1602,6 +1603,261 @@ FROM text_patterns
 WHERE description ILIKE '%large%'
    OR description ILIKE '%medium%'
    OR description ILIKE '%advanced%';
+```
+
+</details>
+
+---
+
+<h2 align="center" name="group">Group</h2>
+
+### 🟢 01
+
+```txt
+Task: List all employee names and their
+corresponding department names.
+```
+
+<details><summary><b>Answer</b></summary>
+
+```sql
+SELECT
+    e.first_name,
+    e.last_name,
+    d.dept_name
+FROM employees e
+    INNER JOIN dept_emp de ON e.emp_no = de.emp_no
+    INNER JOIN departments d ON de.dept_no = d.dept_no;
+```
+
+</details>
+
+---
+
+### 🟢 02
+
+```txt
+Task: Find the employee number and first name
+of all employees who are currently listed as a manager.
+```
+
+<details><summary><b>Answer</b></summary>
+
+```sql
+SELECT
+    e.emp_no,
+    e.first_name
+FROM employees e
+    INNER JOIN dept_manager dm ON e.emp_no = dm.emp_no;
+```
+
+</details>
+
+---
+
+### 🟢
+
+```txt
+Task: List all employee names and their current salary value.
+```
+
+<details><summary><b>Answer</b></summary>
+
+```sql
+SELECT
+    e.first_name,
+    e.last_name,
+    s.salary
+FROM employees e
+    INNER JOIN salaries s ON e.emp_no = s.emp_no;
+```
+
+</details>
+
+---
+
+### 🟢 03
+
+```txt
+Task: List all departments and, if they have an
+assigned manager, the manager's employee number.
+Include departments even if they have no manager.
+```
+
+<details><summary><b>Answer</b></summary>
+
+```sql
+SELECT
+    d.dept_name,
+    dm.emp_no
+FROM departments d
+    LEFT JOIN dept_manager dm ON d.dept_no = dm.dept_no;
+```
+
+</details>
+
+---
+
+### 🟢 04
+
+```txt
+Task: List all employee names. If an employee has an entry in
+the titles table, include their title. Employees
+without a title entry should still be listed.
+```
+
+<details><summary><b>Answer</b></summary>
+
+```sql
+SELECT
+    e.first_name,
+    e.last_name,
+    t.title
+FROM employees e
+    LEFT JOIN titles t ON e.emp_no = t.emp_no;
+```
+
+</details>
+
+---
+
+### 🟢 05
+
+```txt
+Task: List all employees and their salaries.
+Re-state I3 using a LEFT JOIN with employees as the left table.
+
+```
+
+<details><summary><b>Answer</b></summary>
+
+```sql
+SELECT
+    e.first_name,
+    e.last_name,
+    s.salary
+FROM employees e
+    LEFT JOIN salaries s ON e.emp_no = s.emp_no;
+```
+
+</details>
+
+---
+
+### 🟢 06
+
+```txt
+Task: List all employees and their assigned department number.
+Include employees that have no department assignment
+(which should be rare based on your data structure, but tests the concept).
+Use dept_emp as the right table.
+```
+
+<details><summary><b>Answer</b></summary>
+
+```sql
+SELECT
+    e.first_name,
+    e.last_name,
+    de.dept_no
+FROM dept_emp de
+    RIGHT JOIN employees e ON de.emp_no = e.emp_no;
+```
+
+</details>
+
+---
+
+### 🟢 07
+
+```txt
+Task: List all distinct salaries and the employee number associated
+with them. Include salaries even if they aren't tied
+to an employee (hypothetically). Use salaries as the right table.
+```
+
+<details><summary><b>Answer</b></summary>
+
+```sql
+SELECT
+    e.emp_no,
+    s.salary
+FROM employees e
+    RIGHT JOIN salaries s ON e.emp_no = s.emp_no;
+```
+
+</details>
+
+---
+
+### 🟢 08
+
+```txt
+Task: List all departments and all employee titles. Show the
+department name next to any title if the title
+exists for any employee in that department.
+If a department has no titles or a title has no
+corresponding department, show NULL for the missing field.
+```
+
+<details><summary><b>Answer</b></summary>
+
+```sql
+SELECT
+    d.dept_name,
+    t.title
+FROM departments d
+    FULL OUTER JOIN dept_emp de ON d.dept_no = de.dept_no
+    FULL OUTER JOIN titles t ON de.emp_no = t.emp_no;
+```
+
+</details>
+
+---
+
+### 🟢 09
+
+```txt
+Task: Find all pairs of employees who share the same first
+name but have different employee numbers.
+```
+
+<details><summary><b>Answer</b></summary>
+
+```sql
+SELECT
+    e1.emp_no AS emp1_no,
+    e1.first_name,
+    e2.emp_no AS emp2_no,
+    e2.first_name
+FROM employees e1
+    INNER JOIN employees e2 ON e1.first_name = e2.first_name
+    AND e1.emp_no < e2.emp_no;
+```
+
+</details>
+
+---
+
+### 🟢 10
+
+```txt
+Task: Find all pairs of employees who were hired on the
+same day but are different employees.
+
+```
+
+<details><summary><b>Answer</b></summary>
+
+```sql
+SELECT
+    e1.first_name AS emp1_name,
+    e1.hire_date,
+    e2.first_name AS emp2_name,
+    e2.hire_date
+FROM employees e1
+    INNER JOIN employees e2 ON e1.hire_date = e2.hire_date
+    AND e1.emp_no != e2.emp_no;
 ```
 
 </details>
