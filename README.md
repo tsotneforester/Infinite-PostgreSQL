@@ -14,7 +14,7 @@
 <a href="#like">Like</a> <br>
 <a href="#joins">Joins</a> <br>
 <a href="#group">Group</a> <br>
-<a href="#union">Union, Grouping Sets</a> <br>
+<a href="#sets">Grouping Sets</a> <br>
 
 </div>
 
@@ -2092,67 +2092,9 @@ ORDER BY e.emp_no;
 
 ---
 
-<h2 align="center" name="union">Union, Grouping Sets</h2>
+<h2 align="center" name="sets">Grouping Sets</h2>
 
 ### 🟡 01
-
-```txt
-DB: World / city
-Task: Write a query to show the total population for top 5 most populated
-countries (sorted in descendant order) and include a grand total at the end
-Expected:
-CHN	175953614
-IND	123298526
-BRA	85876862
-USA	78625774
-JPN	77965107
-Total	1429559884
-
-```
-
-<details><summary><b>Answer</b></summary>
-
-```sql
-SELECT
-    country_data.country_code,
-    country_data.total_population
-FROM
-    (
-        -- 🌍 Top 5 Countries by Total City Population
-        SELECT
-            countrycode AS country_code,
-            SUM(population) AS total_population
-        FROM
-            city
-        GROUP BY
-            countrycode
-        ORDER BY
-            total_population DESC
-        LIMIT 5
-
-        UNION ALL
-
-        -- 🥇 Grand Total Population Across All Countries
-        SELECT
-            'World Total' AS country_code,
-            SUM(population) AS total_population
-        FROM
-            city
-    ) AS country_data
--- Final ordering: World Total at the bottom, followed by top countries by population descending.
-ORDER BY
-    CASE
-        WHEN country_data.country_code = 'World Total' THEN 1
-        ELSE 0
-    END,
-    country_data.total_population DESC;
-```
-
-</details>
-
----
-
-### 🟡 02
 
 ```txt
 DB: World / city
@@ -2186,6 +2128,109 @@ GROUP BY GROUPING SETS (
 )
 ORDER BY total_population DESC;
 LIMIT 6; -- 5 + 1 grand total
+```
+
+</details>
+
+---
+
+### 🟡 02
+
+```txt
+DB: Employees
+Task: Calculate the total amount of employees per department using grouping sets
+(sorted in ascending order) and include a grand total at the bottom
+Expected:
+Finance	17346
+Human Resources	17786
+Quality Management	20117
+Marketing	20211
+Research	21126
+Customer Service	23580
+Sales	52245
+Production	73485
+Development	85707
+Grand Total	331603
+
+```
+
+<details><summary><b>Answer</b></summary>
+
+```sql
+SELECT
+    CASE
+        WHEN GROUPING(d.dept_name) = 1 THEN 'Grand Total'
+        ELSE d.dept_name
+    END AS department,
+
+    COUNT(e.emp_no) AS Employees
+FROM
+    employees AS e
+JOIN
+    dept_emp AS de  USING(emp_no)
+JOIN
+    departments AS d USING(dept_no)
+GROUP BY
+    GROUPING SETS (
+        (d.dept_name), -- Group by individual department
+        ()             -- Group by empty set (for the Grand Total)
+    )
+ORDER BY
+    Employees;
+```
+
+</details>
+
+---
+
+### 🟡 03
+
+```txt
+DB: Employees
+Task: Calculate the total average salary per department and the total using grouping sets
+(sorted in descending order) and include a total average at the bottom
+Bonus: simplify with COALESCE
+Expected:
+Sales	80668
+Marketing	71913
+Finance	70489
+Research	59665
+Production	59605
+Development	59479
+Customer Service	58770
+Quality Management	57251
+Human Resources	55575
+Total	63805
+
+```
+
+<details><summary><b>Answer</b></summary>
+
+```sql
+SELECT
+    CASE
+        WHEN GROUPING(d.dept_name) = 1 THEN 'Total'
+        ELSE d.dept_name
+    END AS department,
+    --COALESCE(d.dept_name, 'Total') AS department,
+    ROUND(AVG(s.salary)) AS average_salary
+FROM
+    salaries s
+JOIN
+    dept_emp de ON s.emp_no = de.emp_no
+JOIN
+    departments d ON de.dept_no = d.dept_no
+GROUP BY
+    GROUPING SETS (
+        (d.dept_name),
+        () -- This represents the grand total
+    )
+ORDER BY
+    CASE
+        WHEN GROUPING(d.dept_name) = 1 THEN 1 -- Puts 'Total' row at the end
+        ELSE 0
+    END,
+    average_salary DESC;
 ```
 
 </details>
